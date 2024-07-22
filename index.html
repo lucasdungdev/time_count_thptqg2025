@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đếm ngược đến THPT QG 2025</title>
+    <title>Đếm ngược đến THPT QG 2025 (dự đoán)</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f8ff;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .container {
             text-align: center;
@@ -20,14 +22,18 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
         }
         h1 {
             color: #333;
             margin-bottom: 30px;
+            font-size: 1.8em;
         }
         .countdown-wrapper {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             gap: 20px;
         }
         .countdown-item {
@@ -36,13 +42,13 @@
             align-items: center;
         }
         .countdown-item span {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
             background-color: #4a90e2;
             color: white;
             padding: 10px;
             border-radius: 10px;
-            min-width: 70px;
+            min-width: 60px;
         }
         .countdown-item p {
             margin-top: 10px;
@@ -52,9 +58,35 @@
         }
         .event-name {
             margin-top: 30px;
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: #4a90e2;
             font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .countdown-item span {
+                font-size: 2em;
+                min-width: 50px;
+            }
+            .event-name {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .countdown-wrapper {
+                gap: 10px;
+            }
+            .countdown-item span {
+                font-size: 1.8em;
+                min-width: 45px;
+            }
         }
     </style>
 </head>
@@ -79,7 +111,7 @@
                 <p>Giây</p>
             </div>
         </div>
-        <div class="event-name">Đếm ngược đến ngày THPT QG 2025</div>
+        <div class="event-name">Đếm ngược đến ngày THPT QG 2025 (dự đoán)</div>
     </div>
 
     <script>
