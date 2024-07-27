@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đếm ngược đến THPT QG 2025 (dự đoán)</title>
+    <title>Đếm ngược đến THPT QG 2025</title>
     <style>
+        :root {
+            --bg-color: #f0f8ff;
+            --container-bg: white;
+            --text-color: #333;
+            --countdown-bg: #4a90e2;
+            --countdown-text: white;
+            --event-color: #4a90e2;
+        }
+        
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --container-bg: #2c2c2c;
+            --text-color: #f0f0f0;
+            --countdown-bg: #3a7bd5;
+            --countdown-text: #f0f0f0;
+            --event-color: #3a7bd5;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -12,21 +30,23 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f8ff;
+            background-color: var(--bg-color);
             padding: 20px;
             box-sizing: border-box;
+            transition: background-color 0.3s ease;
         }
         .container {
             text-align: center;
-            background-color: white;
+            background-color: var(--container-bg);
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             max-width: 600px;
             width: 100%;
+            transition: background-color 0.3s ease;
         }
         h1 {
-            color: #333;
+            color: var(--text-color);
             margin-bottom: 30px;
             font-size: 1.8em;
         }
@@ -44,23 +64,39 @@
         .countdown-item span {
             font-size: 2.5em;
             font-weight: bold;
-            background-color: #4a90e2;
-            color: white;
+            background-color: var(--countdown-bg);
+            color: var(--countdown-text);
             padding: 10px;
             border-radius: 10px;
             min-width: 60px;
         }
         .countdown-item p {
             margin-top: 10px;
-            color: #666;
+            color: var(--text-color);
             font-size: 0.9em;
             text-transform: uppercase;
         }
         .event-name {
             margin-top: 30px;
             font-size: 1.3em;
-            color: #4a90e2;
+            color: var(--event-color);
             font-weight: bold;
+        }
+        .mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--countdown-bg);
+            color: var(--countdown-text);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .mode-toggle:hover {
+            opacity: 0.9;
         }
 
         @media (max-width: 600px) {
@@ -77,6 +113,12 @@
             .event-name {
                 font-size: 1.1em;
             }
+            .mode-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
         }
 
         @media (max-width: 400px) {
@@ -91,6 +133,7 @@
     </style>
 </head>
 <body>
+    <button class="mode-toggle" onclick="toggleMode()">Chuyển chế độ</button>
     <div class="container">
         <h1>Đếm ngược đến 7:00 sáng ngày 25/06/2025</h1>
         <div class="countdown-wrapper" id="countdown">
@@ -111,7 +154,7 @@
                 <p>Giây</p>
             </div>
         </div>
-        <div class="event-name">Đếm ngược đến ngày THPT QG 2025 (dự đoán)</div>
+        <div class="event-name">Đếm ngược đến ngày THPT QG 2025</div>
     </div>
 
     <script>
@@ -133,6 +176,16 @@
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 document.getElementById('countdown').innerHTML = "<div class='event-name'>Đã đến thời gian!</div>";
+            }
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const modeToggle = document.querySelector('.mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                modeToggle.textContent = 'Chế độ sáng';
+            } else {
+                modeToggle.textContent = 'Chế độ tối';
             }
         }
 
