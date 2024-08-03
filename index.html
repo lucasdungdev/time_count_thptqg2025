@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đếm ngược đến THPT QG 2025</title>
+    <title>Đếm ngược và Pomodoro Timer</title>
     <style>
         :root {
             --bg-color: #f0f8ff;
@@ -12,6 +12,10 @@
             --countdown-bg: #4a90e2;
             --countdown-text: white;
             --event-color: #4a90e2;
+            --button-bg: #4a90e2;
+            --button-text: white;
+            --input-bg: #f0f0f0;
+            --input-text: #333;
         }
         
         .dark-mode {
@@ -21,6 +25,10 @@
             --countdown-bg: #3a7bd5;
             --countdown-text: #f0f0f0;
             --event-color: #3a7bd5;
+            --button-bg: #3a7bd5;
+            --button-text: #f0f0f0;
+            --input-bg: #3c3c3c;
+            --input-text: #f0f0f0;
         }
 
         body {
@@ -45,23 +53,23 @@
             width: 100%;
             transition: background-color 0.3s ease;
         }
-        h1 {
+        h1, h2 {
             color: var(--text-color);
-            margin-bottom: 30px;
-            font-size: 1.8em;
+            margin-bottom: 20px;
         }
-        .countdown-wrapper {
+        .countdown-wrapper, .pomodoro-wrapper {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
+            margin-bottom: 30px;
         }
-        .countdown-item {
+        .countdown-item, .pomodoro-item {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .countdown-item span {
+        .countdown-item span, .pomodoro-item span {
             font-size: 2.5em;
             font-weight: bold;
             background-color: var(--countdown-bg);
@@ -70,33 +78,57 @@
             border-radius: 10px;
             min-width: 60px;
         }
-        .countdown-item p {
+        .countdown-item p, .pomodoro-item p {
             margin-top: 10px;
             color: var(--text-color);
             font-size: 0.9em;
             text-transform: uppercase;
         }
         .event-name {
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 1.3em;
             color: var(--event-color);
             font-weight: bold;
         }
-        .mode-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--countdown-bg);
-            color: var(--countdown-text);
+        .mode-toggle, .timer-toggle {
+            background-color: var(--button-bg);
+            color: var(--button-text);
             border: none;
             padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s ease;
+            margin: 10px;
         }
-        .mode-toggle:hover {
+        .mode-toggle:hover, .timer-toggle:hover {
             opacity: 0.9;
+        }
+        .pomodoro-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pomodoro-controls input {
+            width: 60px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--countdown-bg);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+        .pomodoro-controls button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 600px) {
@@ -106,58 +138,78 @@
             h1 {
                 font-size: 1.5em;
             }
-            .countdown-item span {
+            .countdown-item span, .pomodoro-item span {
                 font-size: 2em;
                 min-width: 50px;
             }
             .event-name {
                 font-size: 1.1em;
             }
-            .mode-toggle {
-                top: 10px;
-                right: 10px;
+            .mode-toggle, .timer-toggle {
                 padding: 8px 12px;
                 font-size: 0.9em;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .countdown-wrapper {
-                gap: 10px;
-            }
-            .countdown-item span {
-                font-size: 1.8em;
-                min-width: 45px;
             }
         }
     </style>
 </head>
 <body>
-    <button class="mode-toggle" onclick="toggleMode()">Chuyển chế độ</button>
     <div class="container">
-        <h1>Đếm ngược đến 7:00 sáng ngày 25/06/2025</h1>
-        <div class="countdown-wrapper" id="countdown">
-            <div class="countdown-item">
-                <span id="days">00</span>
-                <p>Ngày</p>
+        <button class="mode-toggle" onclick="toggleMode()">Chuyển chế độ</button>
+        <button class="timer-toggle" onclick="toggleTimer()">Chuyển đổi Timer</button>
+        
+        <div id="countdown-section">
+            <h1>Đếm ngược đến 7:00 sáng ngày 25/06/2025</h1>
+            <div class="countdown-wrapper" id="countdown">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <p>Ngày</p>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <p>Giờ</p>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <p>Phút</p>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <p>Giây</p>
+                </div>
             </div>
-            <div class="countdown-item">
-                <span id="hours">00</span>
-                <p>Giờ</p>
+            <div class="event-name">Đếm ngược đến ngày THPT QG 2025</div>
+        </div>
+
+        <div id="pomodoro-section" class="hidden">
+            <h2>Pomodoro Timer</h2>
+            <div class="pomodoro-wrapper">
+                <div class="pomodoro-item">
+                    <span id="pomodoro-time">25:00</span>
+                    <p id="pomodoro-status">Tập trung</p>
+                </div>
             </div>
-            <div class="countdown-item">
-                <span id="minutes">00</span>
-                <p>Phút</p>
-            </div>
-            <div class="countdown-item">
-                <span id="seconds">00</span>
-                <p>Giây</p>
+            <div class="pomodoro-controls">
+                <input type="number" id="focus-time" placeholder="Thời gian tập trung (phút)" value="25">
+                <input type="number" id="break-time" placeholder="Thời gian nghỉ (phút)" value="5">
+                <input type="number" id="cycles" placeholder="Số lần lặp" value="4">
+                <button onclick="startPomodoro()">Bắt đầu</button>
+                <button onclick="pausePomodoro()">Tạm dừng</button>
+                <button onclick="resetPomodoro()">Đặt lại</button>
             </div>
         </div>
-        <div class="event-name">Đếm ngược đến ngày THPT QG 2025</div>
     </div>
 
     <script>
+        let countdownInterval;
+        let pomodoroInterval;
+        let isPomodoroRunning = false;
+        let currentCycle = 1;
+        let isBreak = false;
+        let focusTime = 25;
+        let breakTime = 5;
+        let totalCycles = 4;
+        let remainingTime = focusTime * 60;
+
         function updateCountdown() {
             const endDate = new Date("2025-06-25T07:00:00").getTime();
             const now = new Date().getTime();
@@ -189,8 +241,85 @@
             }
         }
 
-        updateCountdown(); // Cập nhật ngay lập tức khi trang tải
-        const countdownInterval = setInterval(updateCountdown, 1000); // Cập nhật mỗi giây
+        function toggleTimer() {
+            const countdownSection = document.getElementById('countdown-section');
+            const pomodoroSection = document.getElementById('pomodoro-section');
+            const timerToggle = document.querySelector('.timer-toggle');
+
+            if (countdownSection.classList.contains('hidden')) {
+                countdownSection.classList.remove('hidden');
+                pomodoroSection.classList.add('hidden');
+                timerToggle.textContent = 'Chuyển sang Pomodoro';
+                resetPomodoro();
+            } else {
+                countdownSection.classList.add('hidden');
+                pomodoroSection.classList.remove('hidden');
+                timerToggle.textContent = 'Chuyển sang Đếm ngược';
+            }
+        }
+
+        function startPomodoro() {
+            if (!isPomodoroRunning) {
+                focusTime = parseInt(document.getElementById('focus-time').value) || 25;
+                breakTime = parseInt(document.getElementById('break-time').value) || 5;
+                totalCycles = parseInt(document.getElementById('cycles').value) || 4;
+                
+                if (currentCycle === 1 && !isBreak) {
+                    remainingTime = focusTime * 60;
+                }
+
+                isPomodoroRunning = true;
+                updatePomodoroTimer();
+                pomodoroInterval = setInterval(updatePomodoroTimer, 1000);
+            }
+        }
+
+        function pausePomodoro() {
+            isPomodoroRunning = false;
+            clearInterval(pomodoroInterval);
+        }
+
+        function resetPomodoro() {
+            isPomodoroRunning = false;
+            clearInterval(pomodoroInterval);
+            currentCycle = 1;
+            isBreak = false;
+            remainingTime = focusTime * 60;
+            updatePomodoroDisplay();
+        }
+
+        function updatePomodoroTimer() {
+            if (remainingTime > 0) {
+                remainingTime--;
+                updatePomodoroDisplay();
+            } else {
+                if (!isBreak) {
+                    if (currentCycle < totalCycles) {
+                        isBreak = true;
+                        remainingTime = breakTime * 60;
+                    } else {
+                        resetPomodoro();
+                        alert('Pomodoro sessions completed!');
+                        return;
+                    }
+                } else {
+                    isBreak = false;
+                    currentCycle++;
+                    remainingTime = focusTime * 60;
+                }
+                updatePomodoroDisplay();
+            }
+        }
+
+        function updatePomodoroDisplay() {
+            const minutes = Math.floor(remainingTime / 60);
+            const seconds = remainingTime % 60;
+            document.getElementById('pomodoro-time').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('pomodoro-status').textContent = isBreak ? 'Nghỉ' : 'Tập trung';
+        }
+
+        updateCountdown();
+        countdownInterval = setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
