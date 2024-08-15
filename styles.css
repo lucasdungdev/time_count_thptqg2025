@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+.countdown-wrapper, .pomodoro-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.countdown-item, .pomodoro-item {
+    margin: 0 10px;
+}
+
+.countdown-item span, .pomodoro-item span {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.event-name {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.pomodoro-controls {
+    margin-top: 20px;
+}
+
+.pomodoro-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+#mode-switch {
+    margin-bottom: 20px;
+    padding: 5px 10px;
+}
