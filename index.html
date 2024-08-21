@@ -4,7 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đếm ngược và Pomodoro Timer</title>
-    <link rel="stylesheet" href="styles.css"></link>
+    <style>
+        :root {
+            --bg-color: #f0f8ff;
+
+@@ -12,6 +12,10 @@
+            --countdown-bg: #4a90e2;
+            --countdown-text: white;
+            --event-color: #4a90e2;
+            --button-bg: #4a90e2;
+            --button-text: white;
+            --input-bg: #f0f0f0;
+            --input-text: #333;
+        }
+        
+        .dark-mode {
+
+@@ -21,6 +25,10 @@
+            --countdown-bg: #3a7bd5;
+            --countdown-text: #f0f0f0;
+            --event-color: #3a7bd5;
+            --button-bg: #3a7bd5;
+            --button-text: #f0f0f0;
+            --input-bg: #3c3c3c;
+            --input-text: #f0f0f0;
+        }
+
+        body {
+
+@@ -45,23 +53,23 @@
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        h1, h2 {
+            color: var(--text-color);
+            margin-bottom: 20px;
+
+        }
+        .countdown-wrapper, .pomodoro-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .countdown-item, .pomodoro-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .countdown-item span, .pomodoro-item span {
+            font-size: 2.5em;
+            font-weight: bold;
+            background-color: var(--countdown-bg);
+
+@@ -70,34 +78,58 @@
+            border-radius: 10px;
+            min-width: 60px;
+        }
+        .countdown-item p, .pomodoro-item p {
+            margin-top: 10px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        .event-name {
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: var(--event-color);
+            font-weight: bold;
+        }
+        .mode-toggle, .timer-toggle {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+
+
+
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin: 10px;
+        }
+        .mode-toggle:hover, .timer-toggle:hover {
+            opacity: 0.9;
+        }
+        .pomodoro-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pomodoro-controls input {
+            width: 60px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--countdown-bg);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+        .pomodoro-controls button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+
+@@ -106,58 +138,78 @@
+            h1 {
+                font-size: 1.5em;
+            }
+            .countdown-item span, .pomodoro-item span {
+                font-size: 2em;
+                min-width: 50px;
+            }
+            .event-name {
+                font-size: 1.1em;
+            }
+            .mode-toggle, .timer-toggle {
+
+
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+    </style>
 </head>
 <body>
     <div class="container">
